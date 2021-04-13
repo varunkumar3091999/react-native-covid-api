@@ -34,18 +34,15 @@ const App: () => Node = () => {
 
   const [states, setStates] = useState([]);
   const [currentStateData, setCurrentStateData] = useState();
-  const [selectedState, setSelectedState] = useState("Total");
+  const [selectedState, setSelectedState] = useState('Total');
 
   useEffect(() => {
     if (states.length === 0) {
       fetch('https://api.covid19india.org/data.json')
         .then(res => res.json())
         .then(data => setStates([...data['statewise']]))
+        .then(() => setCurrentStateData({...states[0]}))
         .catch(err => console.log(err));
-    }
-
-    if (selectedState === "Total" && states.length !== 0) {
-      setCurrentStateData(states[0]);
     } else {
       const currentStateData = states.find(stateValue => {
         return stateValue.state === selectedState;
@@ -125,7 +122,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     marginVertical: 10,
-    fontSize:36,
+    fontSize: 36,
   },
   picker: {
     width: 150,
